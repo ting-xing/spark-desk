@@ -1,0 +1,52 @@
+{
+  "name": "@zhangtx/spark-desk",
+  "version": "1.0.0",
+  "description": "这是一个采用 nodejs 驱动的，使用 web 方式调用 讯飞星火认知大模型 的js库。",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/types/src/index.d.ts",
+  "typings": "./dist/types/src/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "rollup --config rollup.config.mjs -w",
+    "build": "rollup --config rollup.config.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1517607397/spark-desk"
+  },
+  "keywords": [
+    "星火大模型",
+    "SparkDesk",
+    "人工智能",
+    "AI"
+  ],
+  "author": "自由如风",
+  "license": "ISC",
+  "bin": {
+    "spark-desk": "./dist/cli.cjs"
+  },
+  "devDependencies": {
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/crypto-js": "^4.1.1",
+    "@types/jest": "^29.5.4",
+    "@types/node": "^20.5.1",
+    "@types/ws": "^8.5.5",
+    "dotenv": "^16.3.1",
+    "jest": "^29.6.3",
+    "rollup": "^3.28.1",
+    "ts-jest": "^29.1.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "ws": "^8.13.0",
+    "commander": "^11.0.0",
+    "crypto-js": "^4.1.1"
+  },
+  "files": [
+    "dist"
+  ]
+}

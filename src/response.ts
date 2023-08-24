@@ -18,7 +18,7 @@ export type ResponseValue = {
             }]
         },
         usage?: {
-            text:{
+            text: {
                 question_tokens: number, //	保留字段，可忽略
                 prompt_tokens: number, // 包含历史问题的总tokens大小
                 completion_tokens: number, // 回答的tokens大小
@@ -37,21 +37,33 @@ export class Response {
      * 获取AI返回的内容拼接
      */
     public getAllContent() {
+        this.hasError();
         return this.responseValueList.map(response => response.payload.choices.text.map(text => text.content).join("")).join("")
     }
 
     // 历史问题部分消耗的token数量
     public getPromptTokens() {
+        this.hasError();
         return this.responseValueList.at(-1)?.payload.usage?.text.prompt_tokens;
     }
 
     // 回答部分消耗的token数量
     public getCompletionTokens() {
+        this.hasError();
         return this.responseValueList.at(-1)?.payload.usage?.text.completion_tokens;
     }
 
     // 本次回答总共消耗的token数量
     public getTotalTokens() {
+        this.hasError();
         return this.responseValueList.at(-1)?.payload.usage?.text.total_tokens;
+    }
+
+    public hasError() {
+        this.responseValueList.forEach(response => {
+            if (response.header.code !== 0) {
+                throw new Error(JSON.stringify(response))
+            }
+        })
     }
 }

@@ -4,6 +4,7 @@ import {Response, ResponseValue} from "./response";
 import WebSocket from 'ws'
 import {User} from "./user";
 
+
 export interface SparkDeskOption {
     APPID: string;
     APISecret: string;
@@ -11,6 +12,8 @@ export interface SparkDeskOption {
     version: 1 | 2;
     noEncryption?: boolean
 }
+
+export type OnMessage = (data: WebSocket.RawData, isBinary: boolean) => void;
 
 /**
  * 星火大模型
@@ -61,12 +64,21 @@ export class SparkDesk {
         }
     }
 
-    public async request(request: RequestValue, timeout: number = 60E3): Promise<Response> {
+
+    public async request(request: RequestValue, timeout?: number): Promise<Response>
+    /**
+     *
+     * @param request
+     * @param timeout
+     * @param onMessage 此函数触发与  onMessage 时。
+     */
+    public async request(request: RequestValue, timeout?: number, onMessage?: OnMessage): Promise<Response>
+    public async request(request: RequestValue, timeout: number = 60E3, onMessage?: OnMessage): Promise<Response> {
 
         return new Promise((resolve, reject) => {
 
             const t = setTimeout(() => {
-                reject(); // 1. 先拒绝
+                reject(new Error("请求超时")); // 1. 先拒绝
                 websocket && websocket.close(); // 2. 尝试关闭 websocket
             }, timeout);
 
@@ -78,7 +90,8 @@ export class SparkDesk {
                 websocket.send(JSON.stringify(request));
             })
 
-            websocket.addListener("message", (data) => {
+            websocket.addListener("message", (data, isBinary) => {
+                onMessage && onMessage(data, isBinary);
                 const responseValue = JSON.parse(data.toString()) as ResponseValue
                 responseList.push(responseValue)
             })
@@ -92,7 +105,6 @@ export class SparkDesk {
 
 
         })
-
 
     }
 

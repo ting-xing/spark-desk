@@ -5,6 +5,8 @@ import * as fs from "node:fs/promises";
 import * as path from 'node:path'
 import * as readline from 'node:readline';
 import {User} from "./user";
+import {Parameter} from "./parameter";
+import {Response} from "./response";
 
 const rl = readline.createInterface({input: process.stdin, output: process.stdout});
 
@@ -79,9 +81,11 @@ program.argument("[question]", "对星火大模型提出的问题。")
 
         async function handlerContent(content: string) {
             try {
-                const response = await user.speak(content);
+                const response = await user.speak(content, Parameter.createFromVersion(sparkDesk.version), (data) => {
+                    process.stdout.write(new Response([JSON.parse(data.toString())]).getAllContent());
+                });
 
-                process.stdout.write(`[${response.getPromptTokens()}/${response.getCompletionTokens()}/${response.getTotalTokens()}] ${response.getAllContent()}\n`);
+                process.stdout.write(`[${response.getPromptTokens()}/${response.getCompletionTokens()}/${response.getTotalTokens()}]\n`);
             } catch (e) {
                 process.stdout.write(e?.toString() + "\n");
             } finally {

@@ -1,8 +1,9 @@
-import {SparkDesk} from "./SparkDesk";
+import {OnMessage, SparkDesk} from "./SparkDesk";
 import {TextValue} from "./payload";
 import {Parameter} from "./parameter";
 import {Response} from './response'
 import {ASSISTANT, USER} from "./role";
+
 
 export class User {
 
@@ -25,7 +26,9 @@ export class User {
     /**
      * 向星火大模型提出问题
      */
-    public async speak(content: string, parameter: Parameter = Parameter.createFromVersion(this.spark.version)): Promise<Response> {
+    public async speak(content: string, parameter?: Parameter): Promise<Response>
+    public async speak(content: string, parameter: Parameter, onMessage?: OnMessage): Promise<Response>
+    public async speak(content: string, parameter: Parameter = Parameter.createFromVersion(this.spark.version), onMessage?: OnMessage): Promise<Response> {
 
         if (content.length <= 0) {
             throw new Error("内容不可以为空.")
@@ -45,7 +48,7 @@ export class User {
                     ]
                 }
             }
-        })
+        }, 60E3, onMessage)
 
 
         this.history.push({role: USER, content: content});

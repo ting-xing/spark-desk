@@ -1,6 +1,6 @@
 {
   "name": "@zhangtx/spark-desk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "这是一个采用 nodejs 驱动的，使用 web 方式调用 讯飞星火认知大模型 的js库。",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

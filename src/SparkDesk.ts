@@ -1,6 +1,6 @@
 import CryptoJS from "crypto-js";
 import {RequestValue} from "./request";
-import {ResponseValue,Response} from "./response";
+import {Response, ResponseValue} from "./response";
 import WebSocket from 'ws'
 import {User} from "./user";
 
@@ -61,7 +61,7 @@ export class SparkDesk {
         }
     }
 
-    public async request(request: RequestValue, timeout: number = 5E3): Promise<Response> {
+    public async request(request: RequestValue, timeout: number = 60E3): Promise<Response> {
 
         return new Promise((resolve, reject) => {
 

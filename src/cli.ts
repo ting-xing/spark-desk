@@ -97,11 +97,11 @@ program.argument("[question]", "对星火大模型提出的问题。")
             await handlerContent(question); // 首次的问题处理
         } else {
             rl.prompt(); // 输入提示
-            // 后续的问题处理
-            rl.addListener("line", handlerContent);
-            // 关闭事件
-            rl.addListener("close", () => process.stdout.write("感谢您的使用."))
         }
+        // 后续的问题处理
+        rl.addListener("line", handlerContent);
+        // 关闭事件
+        rl.addListener("close", () => process.stdout.write("感谢您的使用."))
     })
 
 

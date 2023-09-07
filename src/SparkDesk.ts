@@ -23,7 +23,9 @@ export class SparkDesk {
     /**
      * 版本
      */
-    public version: 1 | 2 = 1;
+    get version(): 1 | 2 {
+        return this.option.version
+    };
 
 
     constructor(protected option: SparkDeskOption) {
@@ -45,7 +47,7 @@ export class SparkDesk {
         const date = new Date().toUTCString()
         const algorithm = 'hmac-sha256'
         const headers = 'host date request-line'
-        const signatureOrigin = `host: ${host}\ndate: ${date}\nGET /v1.1/chat HTTP/1.1`
+        const signatureOrigin = `host: ${host}\ndate: ${date}\nGET ${url.pathname} HTTP/1.1`
         const signatureSha = CryptoJS.HmacSHA256(signatureOrigin, apiSecret)
         const signature = CryptoJS.enc.Base64.stringify(signatureSha)
         const authorizationOrigin = `api_key="${apiKey}", algorithm="${algorithm}", headers="${headers}", signature="${signature}"`

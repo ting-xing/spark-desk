@@ -14,11 +14,11 @@ if (!APPID || !APISecret || !APIKey) {
 }
 
 const sparkDesk = new SparkDesk({
-    version: 1,
+    version: 2,
     APPID,
     APISecret,
     APIKey,
-    noEncryption: true
+    noEncryption: false
 });
 
 // const user = sparkDesk.createUser("demo");
@@ -29,4 +29,21 @@ describe("星火大模型测试", function () {
         await user.speak("我叫demo").then(e => console.log(e.getAllContent()));
         await user.speak("我叫什么?").then(e => console.log(e.getAllContent()));
     })
+
+    test("多版本调用测试", async function () {
+
+        const versionList: Array<1 | 2> = [1]
+
+        await Promise.all(versionList.map(async version => {
+            const sparkDesk = new SparkDesk({
+                version,
+                APPID,
+                APISecret,
+                APIKey
+            });
+
+            await expect(sparkDesk.createUser("demo").speak("你好").then(res => res.getAllContent())).resolves.not.toBeNull();
+        }))
+    })
+
 })

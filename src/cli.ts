@@ -46,7 +46,7 @@ async function getConfig(): Promise<CliSparkDeskOption> {
             APPID: APPID,
             APISecret: APISecret,
             APIKey: APIKey,
-            version: 1,
+            version: 2,
             noEncryption: false,
             uid: "spark-desk"
         }, undefined, "\t"));
@@ -63,7 +63,6 @@ program.name("星火大模型").description("通过命令行简单的使用星�
 
 
 program.argument("[question]", "对星火大模型提出的问题。")
-    .option("-v,--version <version>", "指定版本，1 或者 2，默认为 1。", "1")
     .option("-u,--uid <uid>", "指定UID，默认为 spark-desk。", "spark-desk")
     .option("-l,--tokenLength <length>", "指定历史问答信息的token长度，1tokens 约等于1.5个中文汉字 或者 0.8个英文单词。默认为 0，没有上下文。", "0")
     .action(async (question: string | undefined, option: { uid: string, version: string, tokenLength: string }) => {

@@ -1,4 +1,4 @@
-import {SparkDesk, User} from "../src";
+import {SparkDesk, SparkDeskOption, User} from "../src";
 import * as dotenv from 'dotenv'
 
 /**
@@ -14,7 +14,7 @@ if (!APPID || !APISecret || !APIKey) {
 }
 
 const sparkDesk = new SparkDesk({
-    version: 2,
+    version: 3,
     APPID,
     APISecret,
     APIKey,
@@ -32,7 +32,7 @@ describe("星火大模型测试", function () {
 
     test("多版本调用测试", async function () {
 
-        const versionList: Array<1 | 2> = [1]
+        const versionList: Array<SparkDeskOption['version']> = [1, 2, 3]
 
         await Promise.all(versionList.map(async version => {
             const sparkDesk = new SparkDesk({

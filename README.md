@@ -8,7 +8,7 @@
 2. 支持 cjs 和 esm
 3. 在命令行中使用
 4. 面向对象
-5. 支持 V1.5 和 V2 接口
+5. 支持 V1.5、V2、V3接口
 
 ### 简单尝试
 
@@ -23,7 +23,7 @@ npm i spark-desk -g
 
 > 你可以手动编辑 `.spark-desk` 文件，以达到改变配置文件的目的
 
-> 程序默认使用的版本是 V2
+> 程序默认使用的版本是 V3
 
 在程序启动后，你可以通过命令行与AI交互。
 
@@ -82,7 +82,7 @@ const sparkDesk = new SparkDesk({
     APPID: "a5fxxxxxx",
     APISecret: "MGIxNTcwNDI4MGY1YjUxM2Mxxxxxxx",
     APIKey: "aa5fbf57f7818bd1cec61dexxxxxxxx",
-    version: 1
+    version: 3
 });
 
 const user = sparkDesk.createUser("demo");

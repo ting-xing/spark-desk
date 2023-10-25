@@ -9,7 +9,7 @@ export interface SparkDeskOption {
     APPID: string;
     APISecret: string;
     APIKey: string;
-    version: 1 | 2;
+    version: 1 | 2 | 3;
     noEncryption?: boolean
 }
 
@@ -23,7 +23,7 @@ export class SparkDesk {
     /**
      * 版本
      */
-    get version(): 1 | 2 {
+    get version(): SparkDeskOption['version'] {
         return this.option.version
     };
 
@@ -61,6 +61,8 @@ export class SparkDesk {
                 return new URL("wss://spark-api.xf-yun.com/v1.1/chat");
             case 2:
                 return new URL("wss://spark-api.xf-yun.com/v2.1/chat");
+            case 3:
+                return new URL("wss://spark-api.xf-yun.com/v3.1/chat")
             default:
                 throw new Error("不存在的版本.")
         }

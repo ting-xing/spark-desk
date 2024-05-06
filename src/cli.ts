@@ -46,7 +46,7 @@ async function getConfig(): Promise<CliSparkDeskOption> {
             APPID: APPID,
             APISecret: APISecret,
             APIKey: APIKey,
-            version: 3,
+            version: 3.5,
             noEncryption: false,
             uid: "spark-desk"
         }, undefined, "\t"));

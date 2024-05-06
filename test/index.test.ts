@@ -14,7 +14,7 @@ if (!APPID || !APISecret || !APIKey) {
 }
 
 const sparkDesk = new SparkDesk({
-    version: 3,
+    version: 3.5,
     APPID,
     APISecret,
     APIKey,
@@ -28,11 +28,12 @@ describe("星火大模型测试", function () {
     test("简单的调用测试", async () => {
         await user.speak("我叫demo").then(e => console.log(e.getAllContent()));
         await user.speak("我叫什么?").then(e => console.log(e.getAllContent()));
+        await user.speak("你现在是哪个版本?").then(e => console.log(e.getAllContent()));
     })
 
     test("多版本调用测试", async function () {
 
-        const versionList: Array<SparkDeskOption['version']> = [1, 2, 3]
+        const versionList: Array<SparkDeskOption['version']> = [1, 2, 3, 3.5]
 
         await Promise.all(versionList.map(async version => {
             const sparkDesk = new SparkDesk({

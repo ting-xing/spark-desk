@@ -1,4 +1,6 @@
-export type TextValue = { role: "user" | "assistant", content: string };
+import {Role} from "./role";
+
+export type TextValue = { role: Role, content: string };
 export type MessageValue = { text: Array<TextValue> }
 export type PayloadValue = { message: MessageValue }
 

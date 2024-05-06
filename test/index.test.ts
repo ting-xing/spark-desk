@@ -47,4 +47,12 @@ describe("星火大模型测试", function () {
         }))
     })
 
+    test("设置对话背景或者模型角色", async function () {
+        const user = sparkDesk.createUser("test");
+
+        user.setSystemContent("你现在扮演李白，你豪情万丈，狂放不羁；接下来请用李白的口吻和用户对话。")
+
+        await expect(user.speak("你是谁?").then(res => res.getAllContent())).resolves.not.toBeNull();
+    }, 100E3)
+
 })

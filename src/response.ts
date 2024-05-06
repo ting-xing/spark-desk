@@ -1,4 +1,4 @@
-import {ASSISTANT} from "./role";
+import {Role} from "./role";
 
 export type ResponseValue = {
     header: {
@@ -13,7 +13,7 @@ export type ResponseValue = {
             seq: number, // 返回的数据序号，取值为[0,9999999]
             text: [{
                 content: string, // AI的回答内容
-                role: typeof ASSISTANT, // 角色标识，固定为assistant，标识角色为AI
+                role: typeof Role.Assistant, // 角色标识，固定为assistant，标识角色为AI
                 index: number, // 	结果序号，取值为[0,10]; 当前为保留字段，开发者可忽略
             }]
         },

@@ -1,4 +1,4 @@
-import {SparkDesk, User} from "../src";
+import {SparkDesk, SparkDeskOption, User} from "../src";
 import * as dotenv from 'dotenv'
 
 /**
@@ -14,11 +14,11 @@ if (!APPID || !APISecret || !APIKey) {
 }
 
 const sparkDesk = new SparkDesk({
-    version: 1,
+    version: 3.5,
     APPID,
     APISecret,
     APIKey,
-    noEncryption: true
+    noEncryption: false
 });
 
 // const user = sparkDesk.createUser("demo");
@@ -28,5 +28,31 @@ describe("星火大模型测试", function () {
     test("简单的调用测试", async () => {
         await user.speak("我叫demo").then(e => console.log(e.getAllContent()));
         await user.speak("我叫什么?").then(e => console.log(e.getAllContent()));
+        await user.speak("你现在是哪个版本?").then(e => console.log(e.getAllContent()));
     })
+
+    test("多版本调用测试", async function () {
+
+        const versionList: Array<SparkDeskOption['version']> = [1, 2, 3, 3.5]
+
+        await Promise.all(versionList.map(async version => {
+            const sparkDesk = new SparkDesk({
+                version,
+                APPID,
+                APISecret,
+                APIKey
+            });
+
+            await expect(sparkDesk.createUser("demo").speak("你好").then(res => res.getAllContent())).resolves.not.toBeNull();
+        }))
+    })
+
+    test("设置对话背景或者模型角色", async function () {
+        const user = sparkDesk.createUser("test");
+
+        user.setSystemContent("你现在扮演李白，你豪情万丈，狂放不羁；接下来请用李白的口吻和用户对话。")
+
+        await expect(user.speak("你是谁?").then(res => res.getAllContent())).resolves.not.toBeNull();
+    }, 100E3)
+
 })

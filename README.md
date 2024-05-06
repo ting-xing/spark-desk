@@ -1,6 +1,6 @@
 ## spark-desk
 
-这是一个采用 nodejs 驱动的，使用 web 方式调用 讯飞星火认知大模型 的js库。
+这是一个采用 nodejs 驱动的，使用 web 方式调用 [讯飞星火认知大模型](https://xinghuo.xfyun.cn/sparkapi) 的js库。
 可以将其全局安装，然后通过 cli 的方式使用。
 也可以进行局部安装，然后在你的 nodejs 项目里使用。
 
@@ -8,6 +8,7 @@
 2. 支持 cjs 和 esm
 3. 在命令行中使用
 4. 面向对象
+5. 支持 V1.5、V2、V3、V3.5接口,支持 system(对话背景) 特性。
 
 ### 简单尝试
 
@@ -20,12 +21,16 @@ npm i spark-desk -g
 在安装后，运行 `spark-desk` 命令，会让你输入 `APPID` 、 `APISecret` 、 `APIKey`;
 之后，这些信息将保存到你的用户目录下的 `.spark-desk` 文件中，以 `json` 的方式。
 
+> 你可以手动编辑 `.spark-desk` 文件，以达到改变配置文件的目的
+
+> 程序默认使用的版本是 V3.5
+
 在程序启动后，你可以通过命令行与AI交互。
 
 ```shell
-spark-desk                  
+C:\Users\user>spark-desk
 spark-desk > 你好
-[10/9/19] 你好！有什么我可以帮助你的吗？
+你好！有什么我可以帮忙的吗？[10/9/19]
 spark-desk >
 ```
 
@@ -53,7 +58,7 @@ demo >
 使用样例
 
 ```shell
-spark-desk -l 20
+C:\Users\user>spark-desk -l 20
 spark-desk > 我叫 spark-desk
 [13/21/34] 你好，spark-desk!很高兴为你提供帮助。请问有什么问题我可以帮您解答吗？
 spark-desk > 我叫什么？
@@ -77,7 +82,7 @@ const sparkDesk = new SparkDesk({
     APPID: "a5fxxxxxx",
     APISecret: "MGIxNTcwNDI4MGY1YjUxM2Mxxxxxxx",
     APIKey: "aa5fbf57f7818bd1cec61dexxxxxxxx",
-    version: 1
+    version: 3
 });
 
 const user = sparkDesk.createUser("demo");

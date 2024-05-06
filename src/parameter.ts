@@ -11,7 +11,7 @@ export type ParameterValue = {
 }
 
 export class Parameter {
-    constructor(protected domain: "general" | "generalv2",
+    constructor(protected domain: "general" | "generalv2" | "generalv3" | "generalv3.5" | string,
                 protected temperature: number = 0.5,
                 protected max_tokens: number = 2048,
                 protected top_k: number = 4,
@@ -26,6 +26,10 @@ export class Parameter {
                     return "general"
                 case 2:
                     return "generalv2"
+                case 3:
+                    return "generalv3"
+                case 3.5:
+                    return "generalv3.5"
                 default:
                     throw new Error("不存在的版本.")
             }

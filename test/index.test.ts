@@ -29,7 +29,7 @@ describe("星火大模型测试", function () {
         await user.speak("我叫demo").then(e => console.log(e.getAllContent()));
         await user.speak("我叫什么?").then(e => console.log(e.getAllContent()));
         await user.speak("你现在是哪个版本?").then(e => console.log(e.getAllContent()));
-    })
+    },100E3)
 
     test("多版本调用测试", async function () {
 
@@ -45,7 +45,7 @@ describe("星火大模型测试", function () {
 
             await expect(sparkDesk.createUser("demo").speak("你好").then(res => res.getAllContent())).resolves.not.toBeNull();
         }))
-    })
+    },100E3)
 
     test("设置对话背景或者模型角色", async function () {
         const user = sparkDesk.createUser("test");

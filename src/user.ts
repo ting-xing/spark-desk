@@ -32,7 +32,7 @@ export class User {
      * 向星火大模型提出问题
      */
     public async speak(content: string, parameter?: Parameter): Promise<Response>
-    public async speak(content: string, parameter: Parameter, onMessage?: OnMessage): Promise<Response>
+    public async speak(content: string, parameter?: Parameter, onMessage?: OnMessage): Promise<Response>
     public async speak(content: string, parameter: Parameter = Parameter.createFromVersion(this.spark.version), onMessage?: OnMessage): Promise<Response> {
 
         if (content.length <= 0) {

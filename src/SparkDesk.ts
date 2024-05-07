@@ -1,8 +1,8 @@
 import CryptoJS from "crypto-js";
 import {RequestValue} from "./request";
 import {Response, ResponseValue} from "./response";
-import WebSocket from 'ws'
 import {User} from "./user";
+import {WebSocketAdapter} from "./WebSocketAdapter";
 
 
 export interface SparkDeskOption {
@@ -13,7 +13,7 @@ export interface SparkDeskOption {
     noEncryption?: boolean
 }
 
-export type OnMessage = (data: WebSocket.RawData, isBinary: boolean) => void;
+export type OnMessage = <K extends keyof WebSocketEventMap>(event: WebSocketEventMap[K]) => void;
 
 /**
  * 星火大模型
@@ -79,7 +79,7 @@ export class SparkDesk {
      * @param onMessage 此函数触发与  onMessage 时。
      */
     public async request(request: RequestValue, timeout?: number, onMessage?: OnMessage): Promise<Response>
-    public async request(request: RequestValue, timeout: number = 60E3, onMessage?: OnMessage): Promise<Response> {
+    public async request(request: RequestValue, timeout: number = 60E3, onMessage?: OnMessage): Promise<unknown> {
 
         return new Promise((resolve, reject) => {
 
@@ -88,34 +88,34 @@ export class SparkDesk {
                 websocket && websocket.close(); // 2. 尝试关闭 websocket
             }, timeout);
 
-            const websocket = new WebSocket(this.getWebsocketUrl());
+            const websocket = new WebSocketAdapter(this.getWebsocketUrl());
 
             const responseList: Array<ResponseValue> = [];
 
-            websocket.addListener("open", () => {
+            websocket.addEventListener("open", () => {
                 websocket.send(JSON.stringify(request));
             })
 
-            websocket.addListener("message", (data, isBinary) => {
-                onMessage && onMessage(data, isBinary);
-                const responseValue = JSON.parse(data.toString()) as ResponseValue
+            websocket.addEventListener("message", (event) => {
+                onMessage && onMessage(event);
+                const responseValue = JSON.parse(event.data.toString()) as ResponseValue
                 responseList.push(responseValue)
             })
 
-            websocket.addListener("close", () => {
+            websocket.addEventListener("close", () => {
                 clearTimeout(t); // 清除超时
                 resolve(new Response(responseList));
             })
 
-            websocket.addListener("error", reject)
+            websocket.addEventListener("error", reject)
 
 
         })
 
     }
 
-    public createUser(uid: string) {
-        return new User(this, uid)
+    public createUser(uid: string, tokenLength?: number) {
+        return new User(this, uid, tokenLength)
     }
 
 }

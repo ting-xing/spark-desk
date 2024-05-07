@@ -1,6 +1,7 @@
 ## spark-desk
 
-这是一个使用WebSocket调用 [讯飞星火认知大模型](https://xinghuo.xfyun.cn/sparkapi) 的js库。 [星火认知大模型Web API文档](https://www.xfyun.cn/doc/spark/Web.html)
+这是一个使用WebSocket调用 [讯飞星火认知大模型](https://xinghuo.xfyun.cn/sparkapi)
+的js库。 [星火认知大模型Web API文档](https://www.xfyun.cn/doc/spark/Web.html)
 
 1. 使用 typescript
 2. 支持 cjs 和 esm
@@ -15,6 +16,10 @@
 ### 简单尝试
 
 **你需要在`讯飞开放平台`中申请星火大模型的使用**
+
+前往 [在线样例](https://ting-xing.github.io/spark-desk-ui/)
+
+### 在命令行里使用
 
 ```shell
 npm i spark-desk -g

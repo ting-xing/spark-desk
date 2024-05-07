@@ -1,7 +1,7 @@
 {
   "name": "@zhangtx/spark-desk",
   "version": "1.4.0",
-  "description": "这是一个采用 nodejs 驱动的，使用 web 方式调用 讯飞星火认知大模型 的js库。",
+  "description": "使用WebSocket调用 讯飞星火认知大模型 的js库",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/types/src/index.d.ts",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/1517607397/spark-desk"
+    "url": "git+https://github.com/ting-xing/spark-desk"
   },
   "keywords": [
     "星火大模型",

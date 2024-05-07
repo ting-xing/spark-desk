@@ -1,14 +1,16 @@
 ## spark-desk
 
-这是一个采用 nodejs 驱动的，使用 web 方式调用 [讯飞星火认知大模型](https://xinghuo.xfyun.cn/sparkapi) 的js库。
-可以将其全局安装，然后通过 cli 的方式使用。
-也可以进行局部安装，然后在你的 nodejs 项目里使用。
+这是一个使用WebSocket调用 [讯飞星火认知大模型](https://xinghuo.xfyun.cn/sparkapi) 的js库。 [星火认知大模型Web API文档](https://www.xfyun.cn/doc/spark/Web.html)
 
 1. 使用 typescript
 2. 支持 cjs 和 esm
 3. 在命令行中使用
 4. 面向对象
 5. 支持 V1.5、V2、V3、V3.5接口,支持 system(对话背景) 特性。
+6. 支持在浏览器、nodejs里运行
+
+> 对于 `node`，基于 `ws` 实现。   
+> 对于 `浏览器`，基于 `原生WebSocket` 实现。
 
 ### 简单尝试
 
@@ -82,7 +84,7 @@ const sparkDesk = new SparkDesk({
     APPID: "a5fxxxxxx",
     APISecret: "MGIxNTcwNDI4MGY1YjUxM2Mxxxxxxx",
     APIKey: "aa5fbf57f7818bd1cec61dexxxxxxxx",
-    version: 3
+    version: 3.5
 });
 
 const user = sparkDesk.createUser("demo");
@@ -108,12 +110,12 @@ import {SparkDesk} from "spark-desk"
 
 #### 本项目开发环境
 
-| 名称       | 版本                                                |
-|----------|---------------------------------------------------|
-| nodejs   | v16.20.2                                          |
-| npm      | 8.19.4                                            |
-| OS       | Windows Feature Experience Pack 1000.22659.1000.0 |
-| webstorm | Build #WS-232.8660.143, built on July 21, 2023    |
+| 名称       | 版本              |
+|----------|-----------------|
+| nodejs   | v18.17.1        |
+| npm      | 10.5.2          |
+| OS       | Windows 11 专业版  |
+| webstorm | WebStorm 2023.2 |
 
 
 

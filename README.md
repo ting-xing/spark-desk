@@ -5,14 +5,14 @@
 
 1. 使用 typescript
 2. 支持 cjs 和 esm
-3. 在命令行中使用
-4. 面向对象
-5. 支持所有版本接口
-6. 支持在浏览器、nodejs里运行
+3. 面向对象
+4. 支持所有版本接口
+5. 支持在浏览器、nodejs里运行
+6. 支持 Http 和 Websocket 方式使用
 
 ### 简单尝试
 
-前往 [在线样例](https://ting-xing.github.io/spark-desk-ui/)
+前往 [在线样例](https://ting-xing.github.io/spark-desk-example/)
 
 ### 在您的项目里使用
 

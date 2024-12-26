@@ -1,6 +1,6 @@
-import {Role} from "./role";
+import {Role} from "./Role";
 
-export type ResponseValue = {
+export type WebsocketResponse = {
     header: {
         code: 0 | number, // 错误码，0表示正常，非0表示出错；详细释义可在接口说明文档最后的错误码说明了解
         message: string, // 会话是否成功的描述信息
@@ -29,41 +29,3 @@ export type ResponseValue = {
 }
 
 
-export class Response {
-    constructor(protected responseValueList: Array<ResponseValue>) {
-    }
-
-    /**
-     * 获取AI返回的内容拼接
-     */
-    public getAllContent() {
-        this.hasError();
-        return this.responseValueList.map(response => response.payload.choices.text.map(text => text.content).join("")).join("")
-    }
-
-    // 历史问题部分消耗的token数量
-    public getPromptTokens() {
-        this.hasError();
-        return this.responseValueList.at(-1)?.payload.usage?.text.prompt_tokens;
-    }
-
-    // 回答部分消耗的token数量
-    public getCompletionTokens() {
-        this.hasError();
-        return this.responseValueList.at(-1)?.payload.usage?.text.completion_tokens;
-    }
-
-    // 本次回答总共消耗的token数量
-    public getTotalTokens() {
-        this.hasError();
-        return this.responseValueList.at(-1)?.payload.usage?.text.total_tokens;
-    }
-
-    public hasError() {
-        this.responseValueList.forEach(response => {
-            if (response.header.code !== 0) {
-                throw new Error(JSON.stringify(response))
-            }
-        })
-    }
-}

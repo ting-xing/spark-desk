@@ -1,15 +1,19 @@
 import CryptoJS from "crypto-js";
-import {RequestValue} from "./request";
-import {Response, ResponseValue} from "./response";
-import {User} from "./user";
+import {WebsocketRequestParams} from "./WebsocketRequestParams";
+import {WebsocketResponse} from "./WebsocketResponse";
+import {WebsocketUser} from "./WebsocketUser";
 import {WebSocketAdapter} from "./WebSocketAdapter";
+import {WebsocketResponseImpl} from "./WebsocketResponseImpl";
+import {WebsocketUrl} from "./WebsocketUrl";
+import {Version} from "../common/Version";
+import {AbstractSparkDesk} from "../common/AbstractSparkDesk";
 
 
 export interface SparkDeskOption {
     APPID: string;
     APISecret: string;
     APIKey: string;
-    version: 1 | 2 | 3 | 3.5 | number;
+    version: Version;
     noEncryption?: boolean
 }
 
@@ -18,7 +22,7 @@ export type OnMessage = <K extends keyof WebSocketEventMap>(event: WebSocketEven
 /**
  * 星火大模型
  */
-export class SparkDesk {
+export class WebsocketSparkDesk extends AbstractSparkDesk {
 
     /**
      * 版本
@@ -29,7 +33,7 @@ export class SparkDesk {
 
 
     constructor(protected option: SparkDeskOption) {
-
+        super();
     }
 
     public get APPID() {
@@ -39,7 +43,7 @@ export class SparkDesk {
     protected getWebsocketUrl() {
         const apiKey = this.option.APIKey
         const apiSecret = this.option.APISecret
-        const url = this.getDomain();
+        const url = this.getUrl();
         if (this.option.noEncryption) {
             url.protocol = "ws";
         }
@@ -55,31 +59,23 @@ export class SparkDesk {
         return `${url}?authorization=${authorization}&date=${date}&host=${host}`
     }
 
-    protected getDomain() {
-        switch (this.option.version) {
-            case 1:
-                return new URL("wss://spark-api.xf-yun.com/v1.1/chat");
-            case 2:
-                return new URL("wss://spark-api.xf-yun.com/v2.1/chat");
-            case 3:
-                return new URL("wss://spark-api.xf-yun.com/v3.1/chat")
-            case 3.5:
-                return new URL("wss://spark-api.xf-yun.com/v3.5/chat")
-            default:
-                throw new Error("不存在的版本.")
+    protected getUrl(): URL {
+        if (this.option.version in WebsocketUrl) {
+            return new URL(WebsocketUrl[this.option.version])
         }
+        throw new Error("不存在的版本.")
     }
 
-
-    public async request(request: RequestValue, timeout?: number): Promise<Response>
+    public async request(request: WebsocketRequestParams): Promise<WebsocketResponseImpl>
+    public async request(request: WebsocketRequestParams, timeout?: number): Promise<WebsocketResponseImpl>
     /**
      *
      * @param request
      * @param timeout
      * @param onMessage 此函数触发与  onMessage 时。
      */
-    public async request(request: RequestValue, timeout?: number, onMessage?: OnMessage): Promise<Response>
-    public async request(request: RequestValue, timeout: number = 60E3, onMessage?: OnMessage): Promise<unknown> {
+    public async request(request: WebsocketRequestParams, timeout?: number, onMessage?: OnMessage): Promise<WebsocketResponseImpl>
+    public async request(request: WebsocketRequestParams, timeout: number = 60E3, onMessage?: OnMessage): Promise<unknown> {
 
         return new Promise((resolve, reject) => {
 
@@ -90,7 +86,7 @@ export class SparkDesk {
 
             const websocket = new WebSocketAdapter(this.getWebsocketUrl());
 
-            const responseList: Array<ResponseValue> = [];
+            const responseList: Array<WebsocketResponse> = [];
 
             websocket.addEventListener("open", () => {
                 websocket.send(JSON.stringify(request));
@@ -98,13 +94,13 @@ export class SparkDesk {
 
             websocket.addEventListener("message", (event) => {
                 onMessage && onMessage(event);
-                const responseValue = JSON.parse(event.data.toString()) as ResponseValue
+                const responseValue = JSON.parse(event.data.toString()) as WebsocketResponse
                 responseList.push(responseValue)
             })
 
             websocket.addEventListener("close", () => {
                 clearTimeout(t); // 清除超时
-                resolve(new Response(responseList));
+                resolve(new WebsocketResponseImpl(responseList));
             })
 
             websocket.addEventListener("error", reject)
@@ -114,8 +110,8 @@ export class SparkDesk {
 
     }
 
-    public createUser(uid: string, tokenLength?: number) {
-        return new User(this, uid, tokenLength)
+    public override createUser(uid: string, tokenLength?: number) {
+        return new WebsocketUser(this, uid, tokenLength)
     }
 
 }

@@ -18,15 +18,5 @@ export default defineConfig([
         ],
         external: ["crypto-js", "ws"],
         plugins: [typescript(), terser()]
-    },
-    {
-        input: './src/cli.ts',
-        output: {
-            banner: "#!/usr/bin/env node",
-            file: "./dist/cli.cjs",
-            format: 'cjs'
-        },
-        external: ["commander", "crypto-js", "ws", "node:fs/promises", "node:path", "node:readline"],
-        plugins: [json(), typescript(), terser()]
     }
 ]);

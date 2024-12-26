@@ -1,5 +1,5 @@
 {
-  "name": "@zhangtx/spark-desk",
+  "name": "spark-desk",
   "version": "1.4.1",
   "description": "使用WebSocket调用 讯飞星火认知大模型 的js库",
   "main": "./dist/index.cjs",
@@ -23,9 +23,6 @@
   ],
   "author": "自由如风",
   "license": "ISC",
-  "bin": {
-    "spark-desk": "./dist/cli.cjs"
-  },
   "devDependencies": {
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-terser": "^0.4.3",
@@ -42,9 +39,10 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "ws": "^8.13.0",
+    "axios": "^1.7.9",
     "commander": "^11.0.0",
-    "crypto-js": "^4.1.1"
+    "crypto-js": "^4.1.1",
+    "ws": "^8.13.0"
   },
   "files": [
     "dist"
